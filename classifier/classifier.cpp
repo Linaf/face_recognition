@@ -6,7 +6,7 @@
 #include "classifier.h"
 
 Classifier::Classifier() {
-    faceRecognizer = createFisherFaceRecognizer();
+   // faceRecognizer = createFisherFaceRecognizer();
 
 }
 
