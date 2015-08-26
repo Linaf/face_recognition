@@ -54,5 +54,7 @@ cv::VideoWriter writer;
 std::string vidLoc;
 FACETRACKER::FaceTracker *tracker;
 FACETRACKER::FaceTrackerParams *tracker_params ;
+//FACETRACKER::FaceTracke<FACETRACKER::FaceTracker> *trackers;
+//FACETRACKER::FaceTrackerParams<FACETRACKER::FaceTracker>  *trackers_params ;
 };
 #endif // GROUPPICTUR_H

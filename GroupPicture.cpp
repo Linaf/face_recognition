@@ -1,4 +1,4 @@
-#include "GroupPicture.h"
+﻿#include "GroupPicture.h"
 #include "utils/utils.h"
 #include </home/lina/setup/ffmpeg-2.7.2/compat/aix/math.h>
 #include <boost/filesystem.hpp>
@@ -26,13 +26,13 @@ void GroupPicture::processVideo()
 {
     cap >> image;
 
-
+faces = Utils::detectFaces(image);
     if( !vidLoc.empty())
     {
-           // for (int i = 0; i < faces.size(); i++){
+          for (int i = 0; i < faces.size(); i++){
     writer.open(vidLoc,CV_FOURCC('M','J','P','G'), 30, image.size());
     writer.write(image);
-     //       }
+          }
     }
     cv::Point_<double> initialRun48;
     initialRun48.x=-1;
@@ -58,13 +58,8 @@ void GroupPicture::processVideo()
     while(image.size().width>0 && image.size().height>0)
     {
 
-        //result= tracker->NewFrame(image, tracker_params);
 
-        //image.convertTo(image, -1, 1.1, 30);
-        //cv::flip(image, image, 1);
-        //tracker->Reset();
-          faces = Utils::detectFaces(image);
-if((int)faces.size()>=0) {
+          if((int)faces.size()>=0) {
                         for (int m= 0; m < (int)faces.size();m++){
 
 
@@ -75,7 +70,6 @@ if((int)faces.size()>=0) {
 
                  if(result!=tracker->TRACKER_FAILED && result!=tracker->TRACKER_FACE_OUT_OF_FRAME)
                  {
-                     //Return the value;
                      std::vector<cv::Point_<double> > shapeAdditional;
                      FACETRACKER::Pose pose;
                      std::vector<cv::Point3_<double> > shape3DAdditional;
@@ -141,12 +135,6 @@ if((int)faces.size()>=0) {
                          {
                              point51=m;
                          }
-
-                         //paintOnPicture(image, initialRun48);
-                         //paintOnPicture(image, initialRun54);
-
-                         //paintOnPicture(image, runningMax48);
-                         //paintOnPicture(image, runningMax54);
 
                          paintOnPicture(imageadd, m,1);
                          cv::Point point;
@@ -218,11 +206,12 @@ if((int)faces.size()>=0) {
 
 
                   }
+
+
                          }
-                         else{
+          else{
                              std::cout<<"no faces"<<endl;
                          }
-
 
 
 
@@ -231,6 +220,7 @@ if((int)faces.size()>=0) {
     tracker=0;
             delete tracker_params;
     tracker_params=0;
+
 
 }
 void GroupPicture::setVideoSource()
