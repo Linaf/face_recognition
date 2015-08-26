@@ -42,7 +42,10 @@ private:
 std::vector<cv::Point_<double> > shape;
 std::vector<cv::Point3_<double> > shape3D;
 std::vector<FACETRACKER::Pose> poseVec;
-int result;
+cv::Rect lEye;
+      cv::Rect rEye;
+      cv::Rect mouth;
+      int result;
 cv::VideoCapture cap;
 cv::Mat image;
 const cv::Mat imageadd;
