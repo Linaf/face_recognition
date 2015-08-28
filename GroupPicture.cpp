@@ -26,14 +26,19 @@ void GroupPicture::processVideo()
 {
     cap >> image;
 
-faces = Utils::detectFaces(image);
+    faces = Utils::detectFaces(image);
+   /* for (int i = 0; i < (int)faces.size(); i++){
+         images[i]= cv::Mat(images(faces[i]).clone,faces[i]);
+        }
+*/
     if( !vidLoc.empty())
     {
-          for (int i = 0; i < faces.size(); i++){
+     for (int i = 0; i < (int)faces.size(); i++){
     writer.open(vidLoc,CV_FOURCC('M','J','P','G'), 30, image.size());
     writer.write(image);
           }
     }
+    // faces = Utils::detectFaces(image);
     cv::Point_<double> initialRun48;
     initialRun48.x=-1;
     cv::Point_<double> initialRun54;
@@ -43,6 +48,7 @@ faces = Utils::detectFaces(image);
     runningMax48.x=0;
     cv::Point_<double> runningMax54;
     runningMax54.x=0;
+   // cv::Mat images[];
 
     cv::Point_<double> point6;
     cv::Point_<double> point10;
@@ -60,13 +66,32 @@ faces = Utils::detectFaces(image);
 
 
           if((int)faces.size()>=0) {
-                        for (int m= 0; m < (int)faces.size();m++){
+   //                     for (int y= 0; y < (int)faces.size();y++){
 
 
                          std::cout<<"there are faces"<<endl;
+                           //   cv::Mat imageadd;
+                   //      for(int x=0; x<y+1; x++){
 
-                  cv::Mat imageadd= image(faces[m]).clone();
-                 result= tracker->NewFrame(imageadd, tracker_params);
+                  //           cv::Mat imageadd= image(faces[y]).clone();
+                     //        imageadd.push_back(imageadd1);
+                 //            }
+
+
+                        j=0;
+                        shape.clear();
+                        shape3D.clear();
+                        poseVec.clear();
+                        if(!vidLoc.empty())
+                        writer.open(vidLoc,CV_FOURCC('M','J','P','G'), 30, image.size());
+                        tracker->Reset();
+
+
+                //   if(m>0){
+
+
+                // }
+                 result= tracker->NewFrame(image, tracker_params);
 
                  if(result!=tracker->TRACKER_FAILED && result!=tracker->TRACKER_FACE_OUT_OF_FRAME)
                  {
@@ -95,7 +120,6 @@ faces = Utils::detectFaces(image);
                                  runningMax48= m;
                              }
                          }
-
                          if(i==54)
                          {
                              if(initialRun54.x==-1)
@@ -136,60 +160,58 @@ faces = Utils::detectFaces(image);
                              point51=m;
                          }
 
-                         paintOnPicture(imageadd, m,1);
+                      /*  for (int a=0; a<(int)faces.size();a++){
+                             cv::Mat imageadd= image(faces[a]).clone();
+                           paintOnPicture(imageadd, m,1);
+
+                        }
+                        */
+
+                      //
+                         paintOnPicture(image, m,1);
                          cv::Point point;
                          point.x= image.size().width/2;
                          point.y= image.size().height/2;
                          //Here call the generateSmiles using the queries for the fucntion;
                          if(i==60)
                          {
-                         //cv::Point_<double> m2= shape.at(offset);
-                             //Here a check must be placed such that this rect fall inside the rectangle of the image;
-                  // (0 <= roi.x && 0 <= roi.width && roi.x + roi.width <= m.cols && 0 <= roi.y && 0 <= roi.height && roi.y + roi.height <= m.rows)
-                  if(point6.x< imageadd.cols && point17.y < imageadd.rows && 0 <= point17.x && 0 <= point28.x -point17.x && point17.x + point28.x -point17.x <= imageadd.cols && 0 <= point17.y  && 0 <=  point28.y - point17.y && point17.y + point28.y - point17.y <= imageadd.rows)
-                         {
-                   lEye= cv::Rect(point17.x, point17.y,  point28.x -point17.x, point28.y - point17.y);
-                  }
-                  else
-                  {
-                      cv::putText(imageadd, "Left Eye Out of Frame", point, cv::FONT_HERSHEY_COMPLEX, 0.5, cv::Scalar(255, 0, 0));
-                  }
-               if(point22.x< imageadd.cols && point22.y < imageadd.rows && 0 <= point22.x && 0 <= point28.x -point17.x && point22.x + point28.x -point17.x <= imageadd.cols && 0 <= point22.y && 0 <=  point28.y - point17.y && point22.y + point28.y - point17.y <= imageadd.rows)
-               {
-                   rEye= cv::Rect(point22.x, point22.y, point28.x -point17.x, point28.y - point17.y);
-               }
-               else
-               {
-                   cv::putText(imageadd, "Right Eye Out of Frame", point, cv::FONT_HERSHEY_COMPLEX, 0.5, cv::Scalar(255, 0, 0));
-               }
-               if(point6.x< imageadd.cols && point51.y < imageadd.rows && 0 <= point6.x && 0 <= point10.x- point6.x&& point6.x + point10.x- point6.x <= imageadd.cols && 0 <= point51.y && 0 <=   point6.y- point14.y && point51.y +  point6.y- point14.y <= imageadd.rows)
-               {
-                             mouth =cv::Rect(point6.x, point51.y, point10.x- point6.x, point6.y- point14.y);
-                }             //std::cout<<"Reached Here"<<std::endl;
-               else
-               {
-                   cv::putText(imageadd, "Mouth Out of Frame", point, cv::FONT_HERSHEY_COMPLEX, 0.5, cv::Scalar(255, 0, 0));
-               }
-
-                             //std::cout<<"Reached Here 2"<<std::endl;
+                 std::cout<<"Reached Here 2"<<std::endl;
                          }
                      }
                      j+=66;
+                     viewImage(image);
+                   /* for(int b=0; b<(int)faces.size();b++){
+                        cv::Mat imageadd= image(faces[b]).clone();
+                         viewImage(imageadd);
+                     }
+                     */
+                      cap >> image;
+                    //  viewImage(imageadd);
+                       if(!vidLoc.empty())
+                      writer.write(image);
                  }
                  else if(result==tracker->TRACKER_FACE_OUT_OF_FRAME)
                  {
                      tracker->Reset();
                      //Call the FaceTracker out of Frame
+                     viewImage(image);
+                     cap >> image;
+                     viewImage();
+                      if(!vidLoc.empty())
+                     writer.write(image);
                  }
                  else
                  {
                      tracker->Reset();
                      //Call the FaceTracker Failed to come;
+                     viewImage(image);
+                     cap >> image;
+                     viewImage();
+                      if(!vidLoc.empty())
+                     writer.write(image);
                  }
-                 viewImage(imageadd);
-                 cap >> image;
-                  if(!vidLoc.empty())
-                 writer.write(imageadd);
+
+
                  key = (char) cv::waitKey(20);
                  if(key==27)
                      break;
@@ -200,12 +222,12 @@ faces = Utils::detectFaces(image);
                      shape3D.clear();
                      poseVec.clear();
                      if(!vidLoc.empty())
-                     writer.open(vidLoc,CV_FOURCC('M','J','P','G'), 30, imageadd.size());
+                     writer.open(vidLoc,CV_FOURCC('M','J','P','G'), 30, image.size());
                      tracker->Reset();
                  }
 
 
-                  }
+               //   }
 
 
                          }
@@ -244,8 +266,17 @@ void GroupPicture::viewImage()
 }
 void GroupPicture::viewImage(cv::Mat image1)
 {
-    cv::namedWindow("Facial Expression Tracker1");
+    cv::namedWindow("Facial Expression Tracker1", CV_WINDOW_NORMAL);
     cv::imshow("Facial Expression Tracker1", image1);
+}
+void GroupPicture::viewImage(std::vector<cv::Mat> images)
+{
+
+    for(int i=0; i<(int)images.size(); i++){
+        cv::namedWindow("Facial Expression Tracker1");
+        viewImage(images[i]);
+    }
+
 }
 std::string GroupPicture::intToString(int x)
 {
