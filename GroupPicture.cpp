@@ -66,17 +66,8 @@ void GroupPicture::processVideo()
 
 
           if((int)faces.size()>=0) {
-   //                     for (int y= 0; y < (int)faces.size();y++){
-
 
                          std::cout<<"there are faces"<<endl;
-                           //   cv::Mat imageadd;
-                   //      for(int x=0; x<y+1; x++){
-
-                  //           cv::Mat imageadd= image(faces[y]).clone();
-                     //        imageadd.push_back(imageadd1);
-                 //            }
-
 
                         j=0;
                         shape.clear();
@@ -87,10 +78,6 @@ void GroupPicture::processVideo()
                         tracker->Reset();
 
 
-                //   if(m>0){
-
-
-                // }
                  result= tracker->NewFrame(image, tracker_params);
 
                  if(result!=tracker->TRACKER_FAILED && result!=tracker->TRACKER_FACE_OUT_OF_FRAME)
@@ -160,14 +147,7 @@ void GroupPicture::processVideo()
                              point51=m;
                          }
 
-                      /*  for (int a=0; a<(int)faces.size();a++){
-                             cv::Mat imageadd= image(faces[a]).clone();
-                           paintOnPicture(imageadd, m,1);
 
-                        }
-                        */
-
-                      //
                          paintOnPicture(image, m,1);
                          cv::Point point;
                          point.x= image.size().width/2;
@@ -179,36 +159,43 @@ void GroupPicture::processVideo()
                          }
                      }
                      j+=66;
-                     viewImage(image);
-                   /* for(int b=0; b<(int)faces.size();b++){
-                        cv::Mat imageadd= image(faces[b]).clone();
-                         viewImage(imageadd);
+                   for(int b=0; b<(int)faces.size();b++){
+
+                          viewImage(image);
+                          cap >> image;
+                          if(!vidLoc.empty())
+                         writer.write(image);
                      }
-                     */
-                      cap >> image;
-                    //  viewImage(imageadd);
-                       if(!vidLoc.empty())
-                      writer.write(image);
+
+
                  }
                  else if(result==tracker->TRACKER_FACE_OUT_OF_FRAME)
                  {
                      tracker->Reset();
                      //Call the FaceTracker out of Frame
-                     viewImage(image);
-                     cap >> image;
-                     viewImage();
-                      if(!vidLoc.empty())
-                     writer.write(image);
+                     for(int b=0; b<(int)faces.size();b++){
+
+                            viewImage(image);
+                            cap >> image;
+                            viewImage();
+                            if(!vidLoc.empty())
+                           writer.write(image);
+                       }
+
                  }
                  else
                  {
                      tracker->Reset();
                      //Call the FaceTracker Failed to come;
-                     viewImage(image);
-                     cap >> image;
-                     viewImage();
-                      if(!vidLoc.empty())
-                     writer.write(image);
+                     for(int b=0; b<(int)faces.size();b++){
+
+                            viewImage(image);
+                            cap >> image;
+                            viewImage();
+                            if(!vidLoc.empty())
+                           writer.write(image);
+                       }
+
                  }
 
 
@@ -329,10 +316,6 @@ void GroupPicture::paintOnPicture(cv::Mat &image, cv::Point_<double> point, int)
 void GroupPicture::setVideoWriteLocation(const std::string &vidLoc)
 {
     this->vidLoc= vidLoc;
-    /*
-    this->vidLoc= vidLoc;
-    writer= cv::VideoWriter(vidLoc,CV_FOURCC('M','J','P','G'), 30, image.size());
-    if(!writer.isOpened())
-        throw(12347);*/
+
 
 }
