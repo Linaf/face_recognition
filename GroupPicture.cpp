@@ -237,7 +237,6 @@ void GroupPicture::setVideoSource()
 cap= cv::VideoCapture(0);
 if(!cap.isOpened())
 throw(12346);
-//std::cout<<"IT also reached here"<<std::endl;
 }
 void GroupPicture::setVideoSource(const std::string &videoLoc)
 {
